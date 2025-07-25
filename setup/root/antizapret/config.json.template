@@ -1,0 +1,82 @@
+
+{
+  "log": {
+    "loglevel": "warning"
+  },
+  "inbounds": [
+    {
+      "port": 443,
+      "protocol": "vless",
+      "settings": {
+        "clients": "__CLIENTS_ANTIZAPRET__",
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "show": false,
+          "dest": "www.microsoft.com:443",
+          "xver": 0,
+          "serverNames": [
+            "www.microsoft.com"
+          ],
+          "privateKey": "${PRIVATE_KEY}",
+          "shortIds": [
+            "",
+            "0123456789abcdef"
+          ]
+        }
+      },
+      "sniffing": {
+        "enabled": true,
+        "destOverride": [
+          "http",
+          "tls"
+        ]
+      }
+    },
+    {
+      "port": 8443,
+      "protocol": "vless",
+      "settings": {
+        "clients": "__CLIENTS_GLOBAL__",
+        "decryption": "none"
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "show": false,
+          "dest": "www.microsoft.com:443",
+          "xver": 0,
+          "serverNames": [
+            "www.microsoft.com"
+          ],
+          "privateKey": "${PRIVATE_KEY}",
+          "shortIds": [
+            "",
+            "0123456789abcdef"
+          ]
+        }
+      }
+    },
+    {
+        "listen": "127.0.0.1",
+        "port": 1080,
+        "protocol": "dokodemo-door",
+        "settings": {
+            "network": "tcp,udp",
+            "followRedirect": true
+        },
+        "tag": "transparent_proxy_inbound",
+        "outboundTag": "direct"
+    }
+  ],
+  "outbounds": [
+    {
+      "protocol": "freedom",
+      "tag": "direct"
+    }
+  ]
+}

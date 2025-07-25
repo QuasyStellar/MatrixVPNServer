@@ -540,6 +540,8 @@ if [[ -z "$(swapon --show)" ]]; then
 	echo "$SWAPFILE none swap sw 0 0" >> /etc/fstab
 fi
 
+/root/antizapret/setup_xray.sh
+
 echo
 echo -e '\e[1;32mAntiZapret VPN + full VPN installed successfully!\e[0m'
 echo 'Rebooting...'

@@ -393,7 +393,7 @@ OPTION=$1
 CLIENT_NAME=$2
 CLIENT_CERT_EXPIRE=$3
 
-if ! [[ "$OPTION" =~ ^[1-8]$ ]]; then
+if ! [[ "$OPTION" =~ ^[1-9]|10|11$ ]]; then
 	echo
 	echo 'Please choose option:'
 	echo '    1) OpenVPN - Add client/Renew client certificate'
@@ -404,8 +404,11 @@ if ! [[ "$OPTION" =~ ^[1-8]$ ]]; then
 	echo '    6) WireGuard/AmneziaWG - List clients'
 	echo '    7) (Re)create clients profile files'
 	echo '    8) (Re)create clients and config backup'
-	until [[ "$OPTION" =~ ^[1-8]$ ]]; do
-		read -rp 'Option choice [1-8]: ' -e OPTION
+	echo '    9) VLESS - Add client'
+	echo '    10) VLESS - Delete client'
+	echo '    11) VLESS - List clients'
+	until [[ "$OPTION" =~ ^[1-9]|10|11$ ]]; do
+		read -rp 'Option choice [1-11]: ' -e OPTION
 	done
 fi
 
@@ -449,5 +452,30 @@ case "$OPTION" in
 	8)
 		echo '(Re)create clients and config backup'
 		backup
+		;;
+	9)
+		echo "VLESS - Add client"
+		askClientName
+		echo "Choose client type:"
+		echo "  1) Antizapret"
+		echo "  2) Global"
+		until [[ "$VLESS_TYPE" =~ ^[1-2]$ ]]; do
+			read -rp 'Type choice [1-2]: ' -e -i 1 VLESS_TYPE
+		done
+		if [ "$VLESS_TYPE" == "2" ]; then
+			/root/antizapret/manage_vless_client.sh add "$CLIENT_NAME" --global
+		else
+			/root/antizapret/manage_vless_client.sh add "$CLIENT_NAME"
+		fi
+		;;
+	10)
+		echo "VLESS - Delete client $CLIENT_NAME"
+		/root/antizapret/manage_vless_client.sh list
+		askClientName
+		/root/antizapret/manage_vless_client.sh delete "$CLIENT_NAME"
+		;;
+	11)
+		echo "VLESS - List clients"
+		/root/antizapret/manage_vless_client.sh list
 		;;
 esac
