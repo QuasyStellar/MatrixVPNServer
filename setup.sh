@@ -325,13 +325,14 @@ trap 'handle_error $LINENO "$BASH_COMMAND"' ERR
 
 generate_xray_keys() {
     echo "Generating Xray Reality keys..."
+    mkdir -p /root/antizapret # Ensure directory exists
     # Generate UUID
     VLESS_UUID=$(cat /proc/sys/kernel/random/uuid)
     
     # Generate Reality private and public keys
     REALITY_PRIVATE_KEY=$(/usr/local/bin/xray x25519)
     REALITY_PUBLIC_KEY=$(/usr/local/bin/xray x25519 -i "$REALITY_PRIVATE_KEY")
-    
+
     # Generate Short ID (random 16-character hex)
     REALITY_SHORT_ID=$(head /dev/urandom | tr -dc A-F0-9 | head -c 16)
 
