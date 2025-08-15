@@ -329,8 +329,8 @@ generate_xray_keys() {
     VLESS_UUID=$(cat /proc/sys/kernel/random/uuid)
     
     # Generate Reality private and public keys
-    REALITY_PRIVATE_KEY=$(/usr/local/bin/xray x25519 -p)
-    REALITY_PUBLIC_KEY=$(/usr/local/bin/xray x25519 -i "$REALITY_PRIVATE_KEY" -pub)
+    REALITY_PRIVATE_KEY=$(/usr/local/bin/xray x25519)
+    REALITY_PUBLIC_KEY=$(/usr/local/bin/xray x25519 -i "$REALITY_PRIVATE_KEY" --pub)
     
     # Generate Short ID (random 16-character hex)
     REALITY_SHORT_ID=$(head /dev/urandom | tr -dc A-F0-9 | head -c 16)
