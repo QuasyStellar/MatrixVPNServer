@@ -1,0 +1,16 @@
+[Unit]
+Description=AntiZapret VPN
+After=multi-user.target
+Wants=multi-user.target
+
+[Service]
+LimitNPROC=infinity
+LimitNOFILE=65535
+WorkingDirectory=/root/antizapret
+ExecStartPre=/root/antizapret/up.sh
+ExecStart=/root/antizapret/proxy.py
+ExecStopPost=/root/antizapret/down.sh
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
