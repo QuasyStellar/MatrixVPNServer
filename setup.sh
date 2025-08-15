@@ -256,7 +256,7 @@ systemctl disable xray &>/dev/null
 rm -rf /usr/local/bin/xray
 rm -rf /usr/local/etc/xray
 rm -rf /var/log/xray
-rm -f /root/antizapret/xray_keys
+
 rm -rf /root/vpn
 rm -rf /root/easy-rsa-ipsec
 rm -rf /root/.gnupg
@@ -464,18 +464,7 @@ git clone https://github.com/QuasyStellar/MatrixVPNServer.git /tmp/antizapret
 
 #
 # Установка и настройка Xray
-install_xray
-if [[ ! -f "/usr/local/bin/xray" || ! -x "/usr/local/bin/xray" ]]; then
-    echo "Error: Xray binary not found or not executable after installation." >&2
-    exit 1
-fi
-generate_xray_keys
-if [[ ! -f "/root/antizapret/xray_keys" ]]; then
-    echo "Error: Xray server keys file not found after generation." >&2
-    exit 1
-fi
-generate_xray_server_config
-create_xray_systemd_service
+
 
 #
 # Сохраняем пользовательские настройки и пользовательские обработчики custom*.sh
@@ -531,6 +520,20 @@ find /tmp/antizapret -type f \( -name '*.sh' -o -name '*.py' \) -execdir chmod +
 find /tmp/antizapret -name '.gitkeep' -delete
 rm -rf /root/antizapret
 cp -r /tmp/antizapret/setup/* /
+
+# Установка и настройка Xray
+install_xray
+if [[ ! -f "/usr/local/bin/xray" || ! -x "/usr/local/bin/xray" ]]; then
+    echo "Error: Xray binary not found or not executable after installation." >&2
+    exit 1
+fi
+generate_xray_keys
+if [[ ! -f "/root/antizapret/xray_keys" ]]; then
+    echo "Error: Xray server keys file not found after generation." >&2
+    exit 1
+fi
+generate_xray_server_config
+create_xray_systemd_service
 rm -rf /tmp/dnslib
 rm -rf /tmp/antizapret
 
