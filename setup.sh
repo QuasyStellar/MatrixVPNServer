@@ -361,7 +361,7 @@ install_xray() {
 }
 
 escape_sed_string() {
-  echo "$1" | sed -e 's/[\/&]/\\&/g'
+  echo "$1" | sed -e 's/[/&\]/\&/g'
 }
 
 generate_xray_server_config() {
