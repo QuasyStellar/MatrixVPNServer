@@ -22,7 +22,7 @@ cd /root
 if [[ "$(systemd-detect-virt)" == "openvz" || "$(systemd-detect-virt)" == "lxc" ]]; then
 	echo 'Error: OpenVZ and LXC are not supported!'
 	exit 3
-}
+fi
 
 #
 # Проверка версии системы

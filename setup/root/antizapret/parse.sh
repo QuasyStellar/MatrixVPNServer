@@ -30,7 +30,7 @@ generate_xray_client_routing_rules() {
     else
         DEFAULT_OUTBOUND="direct"
     fi
-    ROUTING_RULES=$(echo "$ROUTING_RULES" | jq --arg default_outbound "$DEFAULT_OUTBOUND" '. += [{"type": "field", "outboundTag": $default_outbound}]')
+    ROUTING_RULES=$(echo "$ROUTING_RULES" | jq --arg default_outbound "$DEFAULT_OUTBOUND" '. += [{"outboundTag": $default_outbound}]')
 
     echo "$ROUTING_RULES" > result/xray_client_routing_rules.json
 }

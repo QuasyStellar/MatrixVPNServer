@@ -42,6 +42,10 @@
     {
       "protocol": "blackhole",
       "tag": "block"
+    },
+    {
+      "protocol": "freedom",
+      "tag": "proxy"
     }
   ],
   "dns": {
