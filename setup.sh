@@ -360,19 +360,23 @@ install_xray() {
     rm -rf /tmp/xray_extract
 }
 
+escape_sed_string() {
+  echo "$1" | sed -e 's/[\/&]/\\&/g'
+}
+
 generate_xray_server_config() {
     echo "Generating Xray server configuration..."
     SERVER_IP=$(ip -4 addr | sed -ne 's|^.* inet \([^/]*\)/.* scope global.*$|\1|p' | awk '{print $1}' | head -1)
     
     # Use the template to create the actual config.json
     # Replace placeholders with generated keys and server IP
-    sed -e "s|\${XRAY_PORT}|${XRAY_PORT}|g" \
-        -e "s|\${VLESS_UUID}|${VLESS_UUID}|g" \
-        -e "s|\${SERVER_IP}|${SERVER_IP}|g" \
-        -e "s|\${REALITY_SERVER_NAME}|${SERVER_IP}|g" \
-        -e "s|\${REALITY_PRIVATE_KEY}|${REALITY_PRIVATE_KEY}|g" \
-        -e "s|\${REALITY_SHORT_ID}|${REALITY_SHORT_ID}|g" \
-        -e "s|\${KNOT_RESOLVER_PORT}|${KNOT_RESOLVER_PORT}|g" \
+    sed -e "s|\\${XRAY_PORT}|$(escape_sed_string "${XRAY_PORT}")|g" \
+        -e "s|\\${VLESS_UUID}|$(escape_sed_string "${VLESS_UUID}")|g" \
+        -e "s|\\${SERVER_IP}|$(escape_sed_string "${SERVER_IP}")|g" \
+        -e "s|\\${REALITY_SERVER_NAME}|$(escape_sed_string "${SERVER_IP}")|g" \
+        -e "s|\\${REALITY_PRIVATE_KEY}|$(escape_sed_string "${REALITY_PRIVATE_KEY}")|g" \
+        -e "s|\\${REALITY_SHORT_ID}|$(escape_sed_string "${REALITY_SHORT_ID}")|g" \
+        -e "s|\\${KNOT_RESOLVER_PORT}|$(escape_sed_string "${KNOT_RESOLVER_PORT}")|g" \
         "D:\Q\Projects\AntiZapret-VPN\setup\etc\xray\config.json.template" > "${XRAY_CONFIG_DIR}/config.json"
 }
 
