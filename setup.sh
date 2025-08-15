@@ -21,7 +21,7 @@ cd /root
 if [[ "$(systemd-detect-virt)" == "openvz" || "$(systemd-detect-virt)" == "lxc" ]]; then
 	echo 'Error: OpenVZ and LXC are not supported!'
 	exit 3
-fi
+}
 
 #
 # Проверка версии системы
@@ -79,7 +79,7 @@ until [[ "$OPENVPN_DCO" =~ (y|n) ]]; do
 	read -rp 'Turn on OpenVPN DCO? [y/n]: ' -e -i y OPENVPN_DCO
 done
 echo
-echo -e 'Choose DNS resolvers for \e[1;32mAntiZapret VPN\e[0m (antizapret-*):'
+echo -e '\e[1;32mChoose DNS resolvers for \e[1;32mAntiZapret VPN\e[0m\e[0m (antizapret-*):'
 echo '    1) Cloudflare+Quad9  - Recommended by default'
 echo '         +Russian *'
 echo '    2) Cloudflare+Quad9  - Use if default choice fails to resolve domains'
@@ -94,7 +94,7 @@ until [[ "$ANTIZAPRET_DNS" =~ ^[1-5]$ ]]; do
 	read -rp 'DNS choice [1-5]: ' -e -i 1 ANTIZAPRET_DNS
 done
 echo
-echo -e 'Choose DNS resolvers for \e[1;32mfull VPN\e[0m (vpn-*):'
+echo -e '\e[1;32mChoose DNS resolvers for \e[1;32mfull VPN\e[0m\e[0m (vpn-*):'
 echo '    1) Cloudflare  - Recommended by default'
 echo '    2) Quad9       - Use if Cloudflare fails to resolve domains'
 echo '    3) Google *    - Use if Cloudflare/Quad9 fails to resolve domains'
@@ -576,13 +576,13 @@ fi
 # Используем альтернативные диапазоны ip-адресов
 # 10.28.0.0/14 => 172.28.0.0/14
 if [[ "$ALTERNATIVE_IP" == "y" ]]; then
-	sed -i 's/10\.30\./172\.30\./g' /root/antizapret/proxy.py
-	sed -i 's/10\.29\./172\.29\./g' /etc/knot-resolver/kresd.conf
-	sed -i 's/10\./172\./g' /etc/openvpn/server/*.conf
-	sed -i 's/10\./172\./g' /etc/wireguard/templates/*.conf
-	find /etc/wireguard -name '*.conf' -exec sed -i 's/s = 10\./s = 172\./g' {} +
+	sed -i 's/10\\.30\\./172\\.30\\./g' /root/antizapret/proxy.py
+	sed -i 's/10\\.29\\./172\\.29\\./g' /etc/knot-resolver/kresd.conf
+	sed -i 's/10\\./172\\./g' /etc/openvpn/server/*.conf
+	sed -i 's/10\\./172\\./g' /etc/wireguard/templates/*.conf
+	find /etc/wireguard -name '*.conf' -exec sed -i 's/s = 10\\./s = 172\\./g' {} +
 else
-	find /etc/wireguard -name '*.conf' -exec sed -i 's/s = 172\./s = 10\./g' {} +
+	find /etc/wireguard -name '*.conf' -exec sed -i 's/s = 172\\./s = 10\\./g' {} +
 fi
 
 #
@@ -594,7 +594,7 @@ fi
 #
 # Включим подробные логи в OpenVPN
 if [[ "$OPENVPN_LOG" == "y" ]]; then
-	sed -i '/^#\(verb\|log\)/s/^#/' /etc/openvpn/server/*.conf
+	sed -i '/^#\(verb\|log\)/s/^/#/' /etc/openvpn/server/*.conf
 fi
 
 #

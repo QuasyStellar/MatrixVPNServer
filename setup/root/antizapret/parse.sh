@@ -74,7 +74,7 @@ if [[ -z "$1" || "$1" == "ip" || "$1" == "ips" ]]; then
 		echo "push \"route ${IP} ${MASK}\"" >> result/DEFAULT
 		echo "route ${IP} ${MASK}" >> result/tp-link-openvpn-routes.txt
 		echo "route ADD ${IP} MASK ${MASK} ${IP_A}.29.8.1" >> result/keenetic-wireguard-routes.txt
-		echo "/ip route add dst-address=${line} gateway=${IP_A}.29.8.1 distance=1 comment=\"antizapret-wireguard\"" >> result/mikrotik-wireguard-routes.txt
+	echo "/ip route add dst-address=${line} gateway=${IP_A}.29.8.1 distance=1 comment=\"antizapret-wireguard\"" > result/mikrotik-wireguard-routes.txt
 	done < result/route-ips.txt
 
 	# Обновляем файл в OpenVPN только если файл DEFAULT изменился
@@ -172,7 +172,7 @@ if [[ -z "$1" || "$1" == "host" || "$1" == "hosts" ]]; then
 		grep -vFf temp/exclude-patterns2.txt temp/include-hosts5.txt > temp/include-hosts6.txt || true
 	fi
 
-	sed -e 's/^\^//' -e 's/\$$//' temp/include-hosts6.txt > result/include-hosts.txt
+	sed -e 's/^\^//' -e 's/\$//' temp/include-hosts6.txt > result/include-hosts.txt
 
 	# Выводим результат
 	echo "$(wc -l < result/include-hosts.txt) - include-hosts.txt"
@@ -189,7 +189,7 @@ if [[ -z "$1" || "$1" == "host" || "$1" == "hosts" ]]; then
 		count=$(echo 'cache.clear()' | socat - /run/knot-resolver/control/1 | grep -oE '[0-9]+' || echo 0)
 		echo "DNS cache cleared: $count entries"
 		cp -f result/proxy.rpz /etc/knot-resolver/proxy.rpz.tmp
-		mv -f /etc/knot-resolver/proxy.rpz.tmp /etc/knot-resolver/proxy.rpz
+		mv -f /etc/knot-resolver/deny.rpz.tmp /etc/knot-resolver/proxy.rpz
 	fi
 fi
 

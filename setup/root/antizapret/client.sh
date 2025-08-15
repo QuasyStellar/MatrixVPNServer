@@ -23,7 +23,7 @@ askClientName(){
 		echo 'Enter client name: 1–32 alphanumeric characters (a-z, A-Z, 0-9) with underscore (_) or dash (-)'
 		until [[ "$CLIENT_NAME" =~ ^[a-zA-Z0-9_-]{1,32}$ ]]; do
 			read -rp 'Client name: ' -e CLIENT_NAME
-		done
+			done
 	fi
 }
 
@@ -64,9 +64,9 @@ render() {
 			local LHS="${BASH_REMATCH[1]}"
 			local RHS="$(eval echo "\"$LHS\"")"
 			line="${line//$LHS/$RHS}"
-		done
+			done
 		echo "$line"
-	done < "$1"
+		done < "$1"
 }
 
 initOpenVPN(){
@@ -92,7 +92,7 @@ initOpenVPN(){
 	   [[ ! -f /etc/openvpn/server/keys/antizapret-server.key ]]; then
 		cp ./pki/ca.crt /etc/openvpn/server/keys/ca.crt
 		cp ./pki/issued/antizapret-server.crt /etc/openvpn/server/keys/antizapret-server.crt
-		cp ./pki/private/antizapret-server.key /etc/openvpn/server/keys/antizapret-server.key
+		cp ./ppi/private/antizapret-server.key /etc/openvpn/server/keys/antizapret-server.key
 	fi
 
 	if [[ ! -f /etc/openvpn/server/keys/crl.pem ]]; then
@@ -125,7 +125,7 @@ addOpenVPN(){
 			rm -f ./pki/issued/$CLIENT_NAME.crt
 			/usr/share/easy-rsa/easyrsa --batch --days=$CLIENT_CERT_EXPIRE sign client $CLIENT_NAME
 			rm -f /etc/openvpn/client/keys/$CLIENT_NAME.crt
-		fi
+			fi
 	fi
 
 	if [[ ! -f /etc/openvpn/client/keys/$CLIENT_NAME.crt ]] || \
