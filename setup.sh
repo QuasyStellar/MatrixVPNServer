@@ -380,7 +380,7 @@ generate_xray_server_config() {
             gsub(/_@_REALITY_SHORT_ID_@_/, reality_short_id);
             gsub(/_@_KNOT_RESOLVER_PORT_@_/, knot_resolver_port);
             print
-        }' "D:\\Q\\Projects\\AntiZapret-VPN\\setup\\etc\\xray\\config.json.template" > "${XRAY_CONFIG_DIR}/config.json"
+        }' "/tmp/antizapret/setup/etc/xray/config.json.template" > "${XRAY_CONFIG_DIR}/config.json"
 }
 
 create_xray_systemd_service() {
