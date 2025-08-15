@@ -92,7 +92,7 @@ initOpenVPN(){
 	   [[ ! -f /etc/openvpn/server/keys/antizapret-server.key ]]; then
 		cp ./pki/ca.crt /etc/openvpn/server/keys/ca.crt
 		cp ./pki/issued/antizapret-server.crt /etc/openvpn/server/keys/antizapret-server.crt
-		cp ./ppi/private/antizapret-server.key /etc/openvpn/server/keys/antizapret-server.key
+		cp ./pki/private/antizapret-server.key /etc/openvpn/server/keys/antizapret-server.key
 	fi
 
 	if [[ ! -f /etc/openvpn/server/keys/crl.pem ]]; then
