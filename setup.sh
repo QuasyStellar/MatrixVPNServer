@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 #
 # Скрипт для установки на своём сервере AntiZapret VPN и обычного VPN
 #
@@ -464,7 +465,15 @@ git clone https://github.com/QuasyStellar/MatrixVPNServer.git /tmp/antizapret
 #
 # Установка и настройка Xray
 install_xray
+if [[ ! -f "/usr/local/bin/xray" || ! -x "/usr/local/bin/xray" ]]; then
+    echo "Error: Xray binary not found or not executable after installation." >&2
+    exit 1
+fi
 generate_xray_keys
+if [[ ! -f "/root/antizapret/xray_keys" ]]; then
+    echo "Error: Xray server keys file not found after generation." >&2
+    exit 1
+fi
 generate_xray_server_config
 create_xray_systemd_service
 
