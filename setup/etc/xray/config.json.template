@@ -4,12 +4,12 @@
   },
   "inbounds": [
     {
-      "port": ${XRAY_PORT},
+      "port": _@_XRAY_PORT_@_,
       "protocol": "vless",
       "settings": {
         "clients": [
           {
-            "id": "${VLESS_UUID}",
+            "id": "_@_VLESS_UUID_@_",
             "flow": "xtls-rprx-vision"
           }
         ],
@@ -20,14 +20,14 @@
         "security": "reality",
         "realitySettings": {
           "show": false,
-          "dest": "${SERVER_IP}:${XRAY_PORT}",
+          "dest": "_@_SERVER_IP_@_:_@_XRAY_PORT_@_",
           "xver": 0,
           "serverNames": [
-            "${REALITY_SERVER_NAME}"
+            "_@_REALITY_SERVER_NAME_@_"
           ],
-          "privateKey": "${REALITY_PRIVATE_KEY}",
+          "privateKey": "_@_REALITY_PRIVATE_KEY_@_",
           "shortIds": [
-            "${REALITY_SHORT_ID}"
+            "_@_REALITY_SHORT_ID_@_"
           ]
         }
       }
@@ -46,7 +46,7 @@
   ],
   "dns": {
     "servers": [
-      "127.0.0.1#${KNOT_RESOLVER_PORT}"
+      "127.0.0.1#_@_KNOT_RESOLVER_PORT_@_"
     ]
   },
   "routing": {
