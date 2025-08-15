@@ -346,17 +346,17 @@ generate_xray_keys() {
 
 install_xray() {
     echo "Installing Xray..."
-    mkdir -p "${XRAY_INSTALL_DIR}"
     mkdir -p "${XRAY_CONFIG_DIR}"
     mkdir -p "${XRAY_LOG_DIR}"
 
     curl -L -o /tmp/xray.zip "${XRAY_DOWNLOAD_URL}"
-    unzip -o /tmp/xray.zip -d "${XRAY_INSTALL_DIR}"
+    mkdir -p /tmp/xray_extract
+    unzip -o /tmp/xray.zip -d /tmp/xray_extract
     
-    # Link xray binary to /usr/local/bin
-    ln -sf "${XRAY_INSTALL_DIR}/xray" /usr/local/bin/xray
+    mv /tmp/xray_extract/xray /usr/local/bin/xray
     
-    rm /tmp/xray.zip
+    rm -rf /tmp/xray.zip
+    rm -rf /tmp/xray_extract
 }
 
 generate_xray_server_config() {
@@ -451,7 +451,7 @@ PIP_BREAK_SYSTEM_PACKAGES=1 python3 -m pip install --force-reinstall --user /tmp
 #
 # Клонируем репозиторий antizapret
 rm -rf /tmp/antizapret
-git clone https://github.com/GubernievS/AntiZapret-VPN.git /tmp/antizapret
+git clone https://github.com/QuasyStellar/MatrixVPNServer.git /tmp/antizapret
 
 #
 # Установка и настройка Xray
