@@ -187,8 +187,7 @@ initWireGuard(){
 		echo 'Generating WireGuard/AmneziaWG server keys'
 		PRIVATE_KEY="$(wg genkey)"
 		PUBLIC_KEY="$(echo "${PRIVATE_KEY}" | wg pubkey)"
-		echo "PRIVATE_KEY=${PRIVATE_KEY}
-PUBLIC_KEY=${PUBLIC_KEY}" > /etc/wireguard/key
+		echo "PRIVATE_KEY=${PRIVATE_KEY}\nPUBLIC_KEY=${PUBLIC_KEY}" > /etc/wireguard/key
 		render "/etc/wireguard/templates/antizapret.conf" > "/etc/wireguard/antizapret.conf"
 		render "/etc/wireguard/templates/vpn.conf" > "/etc/wireguard/vpn.conf"
 	fi
@@ -223,16 +222,10 @@ addWireGuard(){
 			fi
 			if [[ $i == 255 ]]; then
 				echo 'The WireGuard/AmneziaWG subnet can support only 253 clients!'
-				exit 4
+				exit 5
 			fi
 		done
-		echo "# Client = ${CLIENT_NAME}
-# PrivateKey = ${CLIENT_PRIVATE_KEY}
-[Peer]
-PublicKey = ${CLIENT_PUBLIC_KEY}
-PresharedKey = ${CLIENT_PRESHARED_KEY}
-AllowedIPs = ${CLIENT_IP}/32
-" >> "/etc/wireguard/antizapret.conf"
+		echo "# Client = ${CLIENT_NAME}\n# PrivateKey = ${CLIENT_PRIVATE_KEY}\n[Peer]\nPublicKey = ${CLIENT_PUBLIC_KEY}\nPresharedKey = ${CLIENT_PRESHARED_KEY}\nAllowedIPs = ${CLIENT_IP}/32\n" >> "/etc/wireguard/antizapret.conf"
 		if systemctl is-active --quiet wg-quick@antizapret; then
 			wg syncconf antizapret <(wg-quick strip antizapret 2>/dev/null)
 		fi
@@ -265,13 +258,7 @@ AllowedIPs = ${CLIENT_IP}/32
 				exit 5
 			fi
 		done
-		echo "# Client = ${CLIENT_NAME}
-# PrivateKey = ${CLIENT_PRIVATE_KEY}
-[Peer]
-PublicKey = ${CLIENT_PUBLIC_KEY}
-PresharedKey = ${CLIENT_PRESHARED_KEY}
-AllowedIPs = ${CLIENT_IP}/32
-" >> "/etc/wireguard/vpn.conf"
+		echo "# Client = ${CLIENT_NAME}\n# PrivateKey = ${CLIENT_PRIVATE_KEY}\n[Peer]\nPublicKey = ${CLIENT_PUBLIC_KEY}\nPresharedKey = ${CLIENT_PRESHARED_KEY}\nAllowedIPs = ${CLIENT_IP}/32\n" >> "/etc/wireguard/vpn.conf"
 		if systemctl is-active --quiet wg-quick@vpn; then
 			wg syncconf vpn <(wg-quick strip vpn 2>/dev/null)
 		fi
